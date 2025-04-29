@@ -1,23 +1,44 @@
-cmake_minimum_required(VERSION 3.13)
+# == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
+if(WIN32)
+    set(USERHOME $ENV{USERPROFILE})
+else()
+    set(USERHOME $ENV{HOME})
+endif()
+set(sdkVersion 2.1.1)
+set(toolchainVersion 14_2_Rel1)
+set(picotoolVersion 2.1.1)
+set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+if(EXISTS ${picoVscode})
+    include(${picoVscode})
+endif()
+# ====================================================================================
+set(PICO_BOARD pico CACHE STRING "Board type")
 
-include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+cmake_minimum_required(VERSION 3.12)
+include(pico_sdk_import.cmake)
+project(Pico_ePaper_Code)
+pico_sdk_init()
 
-project(treasure_hunt C CXX ASM) set(CMAKE_C_STANDARD 11) set(CMAKE_CXX_STANDARD 17)
+# Add compilation subdirectory
+add_subdirectory(lib/Config)
+add_subdirectory(lib/Devices)
+add_subdirectory(examples)
 
-add_executable(PROJECT-25 src/main.cpp )
+# Add header file directory
+include_directories(examples)
+include_directories(./lib/Config)
+include_directories(./lib/Devices)
 
-Include directories
+# Generate executable file using the file from c for now, will change it to c++ file later.
+add_executable(main
+    main.c
+)
 
-target_include_directories(PROJECT-25 PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include )
+# enable usb output, disable uart output
+pico_enable_stdio_usb(main 1)
+pico_enable_stdio_uart(main 0)
 
-Link Pico SDK libraries
+# create map/bin/hex/uf2 file etc.
+pico_add_extra_outputs(main)
 
-target_link_libraries(PROJECT-25 pico_stdlib hardware_pwm hardware_gpio )
-
-Enable USB output, disable UART output
-
-pico_enable_stdio_usb(PROJECT-25 1) pico_enable_stdio_uart(PROJECT-25 0)
-
-pico_add_extra_outputs(PROJECT-25)
-
-target_compile_options(PROJECT-25 PRIVATE -Wall -Wextra )
+target_link_libraries(main examples Config pico_stdlib Devices hardware_i2c)
