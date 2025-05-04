@@ -1,0 +1,12 @@
+CMake_minimum_required(VERSION 3.10)
+project(ProjectName)
+
+enable_testing()
+
+add_subdirectory(tests)
+
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+add_executable(main main.cpp)
+target_link_libraries(main ${GTEST_LIBRARIES} pthread)

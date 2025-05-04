@@ -31,7 +31,15 @@ include_directories(./lib/Devices)
 
 # Generate executable file using the file from c for now, will change it to c++ file later.
 add_executable(main
-    main.c
+    main.cpp
+    motor.cpp
+    servo.cpp
+    obstacle.cpp
+    lib/Devices/MotorDriver.cpp
+    lib/Devices/PCA9685.cpp
+    lib/Config/DEV_Config.cpp
+    sensor.cpp
+    coordinates.cpp
 )
 
 # enable usb output, disable uart output
@@ -41,4 +49,5 @@ pico_enable_stdio_uart(main 0)
 # create map/bin/hex/uf2 file etc.
 pico_add_extra_outputs(main)
 
+# Explicitly added PCA9685 and DEV_Config to the target_link_libraries command.
 target_link_libraries(main examples Config pico_stdlib Devices hardware_i2c)
