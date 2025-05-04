@@ -8,5 +8,6 @@
  *
  */
 void right_hand_rule();
+void left_hand_rule();
 
 #endif // MAZE_SOLVER_HPP

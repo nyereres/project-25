@@ -1,8 +1,8 @@
-# Ignore Visual Studio Code settings
-.vscode/
-
 # Ignore build directory
 build/
 
-# Ignore examples directory
-examples/
+# Ignore VS Code settings
+.vscode/
+
+# Ignore dontcare directory
+dontcare/

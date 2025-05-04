@@ -1,4 +1,4 @@
-// Padded and checksummed version of: /home/nw1728/Pico-Motor-Driver-code/c/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
+// Padded and checksummed version of: /home/coxaexs/proje/project-25/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
 
 .cpu cortex-m0plus
 .thumb
